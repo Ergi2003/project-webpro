@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App (GitHub Data)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1em;
+        }
+        #song-list {
+            background-color: white;
+            border-radius: 5px;
+            padding: 1em;
+            margin-bottom: 1em;
+        }
+        #song-list div {
+            padding: 0.5em;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        #song-list div:hover {
+            background-color: #f0f0f0;
+        }
+        #audio-player {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Music App (GitHub Data)</h1>
+    </header>
+    <main>
+        <div id="song-list">
+            <!-- Daftar lagu akan muncul di sini -->
+        </div>
+        <audio id="audio-player" controls></audio>
+    </main>
+    <script>
+        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/songs.json';
+
+        async function fetchSongs() {
+            try {
+                const response = await fetch(GITHUB_RAW_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const songs = await response.json();
+                const songList = document.getElementById('song-list');
+                songs.forEach(song => {
+                    const songItem = document.createElement('div');
+                    songItem.textContent = `${song.title} - ${song.artist}`;
+                    songItem.onclick = () => playSong(song.url);
+                    songList.appendChild(songItem);
+                });
+            } catch (error) {
+                console.error('Gagal mengambil data lagu:', error);
+                const songList = document.getElementById('song-list');
+                songList.textContent = 'Gagal memuat daftar lagu. Silakan coba lagi nanti.';
+            }
+        }
+
+        function playSong(url) {
+            const audioPlayer = document.getElementById('audio-player');
+            audioPlayer.src = url;
+            audioPlayer.play();
+        }
+
+        fetchSongs();
+    </script>
+</body>
+</html>

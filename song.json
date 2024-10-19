@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Judul Lagu 1",
+    "artist": "Artis 1",
+    "url": "https://example.com/lagu1.mp3"
+  },
+  {
+    "title": "Judul Lagu 2",
+    "artist": "Artis 2",
+    "url": "https://example.com/lagu2.mp3"
+  }
+]
